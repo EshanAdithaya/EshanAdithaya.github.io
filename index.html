@@ -309,67 +309,75 @@
         </div>
     </section>
 
-    <!-- Timeline Section -->
-    <section id="timeline" class="py-20 bg-gray-900">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold mb-12 text-center gradient-text">Project Timeline</h2>
-            <div class="timeline-container">
-                <div class="timeline-line"></div>
-                <div class="space-y-12">
-                    <!-- Soluzent -->
-                    <div class="timeline-item" onclick="showProject(1)">
-                        <div class="grid md:grid-cols-2 gap-8 items-center cursor-pointer">
-                            <div class="md:text-right md:pr-12">
-                                <h3 class="text-xl font-bold text-blue-400">Soluzent Web App</h3>
-                                <p class="text-gray-400 mb-2">2024</p>
-                                <p class="text-gray-300">Full-stack web application built with React, Tailwind, Nest.js, and SQL</p>
-                                <div class="flex flex-wrap gap-2 mt-4 md:justify-end">
-                                    <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">React</span>
-                                    <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">Nest.js</span>
-                                    <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">SQL</span>
-                                </div>
-                            </div>
-                            <div class="md:pl-12"></div>
-                        </div>
-                    </div>
-
-                    <!-- WeChat App -->
-                    <div class="timeline-item">
-                        <div class="grid md:grid-cols-2 gap-8 items-center">
-                            <div class="md:text-right md:pr-12 md:col-start-2">
-                                <h3 class="text-xl font-bold text-blue-400">WeChat App</h3>
-                                <p class="text-gray-400 mb-2">2023</p>
-                                <p class="text-gray-300">Android messaging app with Firebase integration</p>
-                                <div class="flex flex-wrap gap-2 mt-4 md:justify-end">
-                                    <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">Java</span>
-                                    <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">Firebase</span>
-                                    <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">Android</span>
-                                </div>
-                            </div>
-                            <div></div>
-                        </div>
-                    </div>
-
-                    <!-- Car Care System -->
-                    <div class="timeline-item">
-                        <div class="grid md:grid-cols-2 gap-8 items-center">
-                            <div class="md:text-right md:pr-12">
-                                <h3 class="text-xl font-bold text-blue-400">Car Care System</h3>
-                                <p class="text-gray-400 mb-2">2023</p>
-                                <p class="text-gray-300">Desktop application for car service management</p>
-                                <div class="flex flex-wrap gap-2 mt-4 md:justify-end">
-                                    <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">Java</span>
-                                    <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">MySQL</span>
-                                    <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">Maven</span>
-                                </div>
-                            </div>
-                            <div class="md:pl-12"></div>
-                        </div>
-                    </div>
-                </div>
+<!-- Timeline Section -->
+<section id="timeline" class="py-20 bg-gray-900">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-12 text-center gradient-text">Project Timeline</h2>
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            <div class="space-y-12" id="timelineContainer">
+                <!-- Timeline items will be inserted here dynamically -->
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<script>
+    // Function to create timeline items
+    function renderTimeline() {
+        const timelineContainer = document.getElementById('timelineContainer');
+        timelineContainer.innerHTML = ''; // Clear existing content
+
+        projects.forEach((project, index) => {
+            const isEven = index % 2 === 0;
+            const timelineItem = document.createElement('div');
+            timelineItem.className = 'timeline-item';
+            timelineItem.onclick = () => showProject(project.id);
+
+            timelineItem.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-8 items-center cursor-pointer">
+                    <div class="${isEven ? 'md:text-right md:pr-12' : 'md:text-right md:pr-12 md:col-start-2'}">
+                        <h3 class="text-xl font-bold text-blue-400">${project.title}</h3>
+                        <p class="text-gray-400 mb-2">${project.date}</p>
+                        <p class="text-gray-300">${project.description}</p>
+                        <div class="flex flex-wrap gap-2 mt-4 md:justify-end">
+                            ${project.technologies
+                                .map(tech => `
+                                    <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">
+                                        ${tech}
+                                    </span>
+                                `)
+                                .join('')}
+                        </div>
+                    </div>
+                    <div class="${isEven ? 'md:pl-12' : ''}"></div>
+                </div>
+            `;
+
+            timelineContainer.appendChild(timelineItem);
+        });
+    }
+
+    // Call the function when the page loads
+    document.addEventListener('DOMContentLoaded', renderTimeline);
+
+    // Rerun the animation observer after rendering
+    document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+    });
+</script>
 
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-gray-800">
@@ -414,27 +422,224 @@
     <script>
         // Project data
         const projects = [
-            {
-                id: 1,
-                title: "Soluzent Web App",
-                date: "2024",
-                type: "Full Stack Development",
-                description: "Enterprise SaaS platform for business management",
-                technologies: ["React", "Tailwind", "Nest.js", "SQL", "Swagger"],
-                details: {
-                    challenge: "Building a scalable SaaS platform with complex user management",
-                    solution: "Implemented microservices architecture with Nest.js backend",
-                    features: [
-                        "User authentication and authorization",
-                        "Real-time data synchronization",
-                        "RESTful API with Swagger documentation",
-                        "Responsive dashboard with Tailwind CSS"
-                    ],
-                    impact: "Improved system efficiency by 40%"
-                }
-            }
-            // Add more projects as needed
-        ];
+    {
+        id: 1,
+        title: "Soluzent Web App",
+        date: "2024",
+        type: "Full Stack Development",
+        description: "Enterprise SaaS platform for business management",
+        technologies: ["React", "Tailwind", "Nest.js", "SQL", "Swagger"],
+        details: {
+            challenge: "Building a scalable SaaS platform with complex user management",
+            solution: "Implemented microservices architecture with Nest.js backend",
+            features: [
+                "User authentication and authorization",
+                "Real-time data synchronization",
+                "RESTful API with Swagger documentation",
+                "Responsive dashboard with Tailwind CSS"
+            ],
+            impact: "Enterprise-level SaaS solution with modern architecture"
+        }
+    },
+    {
+        id: 2,
+        title: "Fit Club Web App",
+        date: "2023",
+        type: "Frontend Development",
+        description: "Fitness club management application",
+        technologies: ["React", "Tailwind", "Nest.js", "SQL", "Swagger"],
+        details: {
+            challenge: "Creating an intuitive fitness management interface",
+            solution: "Developed responsive UI with React and Tailwind",
+            features: [
+                "Membership management",
+                "Fitness tracking",
+                "Schedule management",
+                "Modern responsive design"
+            ],
+            impact: "Streamlined fitness club operations"
+        }
+    },
+    {
+        id: 3,
+        title: "WeChat App",
+        date: "2023",
+        type: "Mobile Development",
+        description: "Android messaging app with Firebase integration",
+        technologies: ["Java", "Firebase", "XML", "Android Studio", "Gradle"],
+        details: {
+            challenge: "Building a real-time messaging system with secure authentication",
+            solution: "Implemented Google account integration with Firebase backend",
+            features: [
+                "Email-based user system",
+                "Google account integration",
+                "Real-time messaging",
+                "Custom UI components",
+                "User search functionality"
+            ],
+            impact: "Feature-rich messaging platform with secure authentication"
+        }
+    },
+    {
+        id: 4,
+        title: "Recipe App",
+        date: "2023",
+        type: "Mobile Development",
+        description: "Android recipe sharing platform",
+        technologies: ["Java", "Firebase", "XML", "Android Studio", "Gradle"],
+        details: {
+            challenge: "Creating a social platform for recipe sharing",
+            solution: "Developed user-friendly interface with Firebase backend",
+            features: [
+                "Custom authentication system",
+                "Google login integration",
+                "Recipe management",
+                "Admin dashboard",
+                "Push notifications via Firebase Cloud Messaging"
+            ],
+            impact: "Community-driven recipe sharing platform"
+        }
+    },
+    {
+        id: 5,
+        title: "Car Care System",
+        date: "2023",
+        type: "Desktop Application",
+        description: "Comprehensive car service management system",
+        technologies: ["Java", "Maven", "MySQL", "NetBeans"],
+        details: {
+            challenge: "Creating an integrated system for car service management",
+            solution: "Developed a Java desktop application with POS integration",
+            features: [
+                "Parts inventory management",
+                "Service tracking",
+                "POS integration",
+                "Stock management",
+                "User management"
+            ],
+            impact: "Streamlined operations for car service facilities"
+        }
+    },
+    {
+        id: 6,
+        title: "Shraddha TV IVR System",
+        date: "2023",
+        type: "Web Development",
+        description: "IVR system interface for TV channel",
+        technologies: ["HTML", "CSS", "JavaScript", "PHP", "SQL"],
+        details: {
+            challenge: "Building a user-friendly interface for IVR management",
+            solution: "Created a web portal for IVR recording management",
+            features: [
+                "IVR recording upload",
+                "Schedule management",
+                "Admin dashboard",
+                "System configuration"
+            ],
+            impact: "Simplified IVR system management"
+        }
+    },
+    {
+        id: 7,
+        title: "Cryste Software Solutions",
+        date: "2023",
+        type: "Web Development",
+        description: "Company website with admin dashboard",
+        technologies: ["HTML", "Bootstrap", "JavaScript", "PHP", "SQL"],
+        details: {
+            challenge: "Creating a professional company website with management capabilities",
+            solution: "Built dynamic website with admin portal",
+            features: [
+                "Dynamic content management",
+                "Admin dashboard",
+                "Project showcase",
+                "Team management",
+                "Contact management"
+            ],
+            impact: "Professional web presence for software company"
+        }
+    },
+    {
+        id: 8,
+        title: "Sumaga Education Institute LMS",
+        date: "2022",
+        type: "Web Development",
+        description: "Complete Learning Management System",
+        technologies: ["HTML", "Bootstrap", "JavaScript", "PHP", "SQL"],
+        details: {
+            challenge: "Developing a comprehensive learning management system",
+            solution: "Built integrated LMS/MCS with admin capabilities",
+            features: [
+                "Student management",
+                "Teacher portal",
+                "Course management",
+                "Administrative dashboard",
+                "Content management system"
+            ],
+            impact: "Streamlined educational processes"
+        }
+    },
+    {
+        id: 9,
+        title: "Orimi Sasaki Nihon Gakuin",
+        date: "2022",
+        type: "Web Development",
+        description: "Student visa agency website",
+        technologies: ["HTML", "Bootstrap", "JavaScript", "PHP", "SQL"],
+        details: {
+            challenge: "Creating a dynamic website for visa agency",
+            solution: "Developed content management system with admin portal",
+            features: [
+                "Course management",
+                "Dynamic content updates",
+                "Lecturer panel",
+                "Admin portal",
+                "Contact management"
+            ],
+            impact: "Improved visa agency's online presence"
+        }
+    },
+    {
+        id: 10,
+        title: "Samee Products",
+        date: "2022",
+        type: "Web Development",
+        description: "E-commerce product showcase",
+        technologies: ["HTML", "Bootstrap", "JavaScript", "PHP", "SQL"],
+        details: {
+            challenge: "Building an effective product showcase platform",
+            solution: "Created user-friendly product catalog website",
+            features: [
+                "Product showcase",
+                "Contact system",
+                "Product management",
+                "Customer engagement tools"
+            ],
+            impact: "Enhanced product visibility and customer reach"
+        }
+    },
+    {
+        id: 11,
+        title: "MateCeylone",
+        date: "2022",
+        type: "Web Development",
+        description: "Product showcase and customer engagement platform",
+        technologies: ["HTML", "Bootstrap", "JavaScript", "PHP", "SQL"],
+        details: {
+            challenge: "Creating an engaging product showcase website",
+            solution: "Developed interactive product platform",
+            features: [
+                "Product catalog",
+                "Customer contact system",
+                "Product management",
+                "Responsive design"
+            ],
+            impact: "Improved customer engagement and product visibility"
+        }
+    }
+];
+
+// The HTML timeline section remains the same, it will now show all projects chronologically
 
         // Preloader
         window.addEventListener('load', () => {
