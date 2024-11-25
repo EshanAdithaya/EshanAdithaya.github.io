@@ -1136,7 +1136,21 @@
                 return;
             }
 
+
             let content = '<div class="space-y-8 animate__animated animate__fadeIn">';
+
+// Add detailed description (new section)
+content += `
+<div class="section-content">
+    <div class="flex items-center space-x-3 text-blue-400 mb-4">
+        <i class="fas fa-file-alt text-xl"></i>
+        <h3 class="text-xl font-semibold">About This Lecture</h3>
+    </div>
+    <div class="pl-4 mb-6">
+        <p class="text-gray-400 leading-relaxed">${getDescriptionForLecture(lecture.id)}</p>
+    </div>
+</div>`;
+
 
             // Overview Section
             if (lecture.content && lecture.content.overview) {
@@ -1224,6 +1238,25 @@
             content += '</div>';
             document.getElementById('modalContent').innerHTML = content;
         }
+
+
+        function getDescriptionForLecture(id) {
+    const descriptions = {
+        1: "This foundational lecture introduces students to essential professional skills required in today's workplace. It covers a comprehensive overview of both hard and soft skills, emphasizing their critical role in career development and professional success. Students will understand how these skills directly impact their employability and career progression.",
+        2: "Focused on creating impactful professional documents, this lecture provides detailed guidance on crafting compelling CVs and cover letters. Students learn modern formatting techniques, content organization, and strategic writing approaches to effectively showcase their qualifications and stand out in competitive job markets.",
+        3: "This crucial lecture prepares students for successful job interviews by covering comprehensive interview strategies. From preparation techniques to post-interview follow-up, students learn to navigate both traditional and behavioral interview formats while mastering professional presentation skills.",
+        4: "A detailed exploration of portfolio development and management, this lecture teaches students to create and maintain professional portfolios across various platforms. It emphasizes digital portfolio creation, content curation, and effective presentation strategies for different professional contexts.",
+        5: "This lecture focuses on effective meeting management and participation skills essential for professional success. Students learn about different meeting types, preparation strategies, facilitation techniques, and the importance of follow-through in meeting outcomes.",
+        6: "Professional email communication is vital in today's workplace. This lecture covers comprehensive email etiquette, structure, and best practices. Students learn to craft effective professional emails while maintaining appropriate tone and formatting across various business contexts.",
+        7: "This advanced lecture teaches students the fundamentals of research design and academic writing. It covers various research methodologies, data collection techniques, and the art of writing clear, concise abstracts for academic and professional purposes.",
+        8: "Understanding dining etiquette is crucial for professional success. This lecture covers formal dining protocols, cultural considerations, and business dining practices. Students learn to navigate various dining situations with confidence and professionalism.",
+        9: "This practical lecture guides students through the process of writing effective project proposals. It covers proposal structures, budget planning, timeline development, and presentation techniques essential for successful project approvals.",
+        10: "Focusing on emotional intelligence in professional settings, this lecture helps students understand and develop their EQ. It covers self-awareness, relationship management, and the application of emotional intelligence in leadership and team dynamics.",
+        11: "This specialized lecture focuses on event management through the lens of food festival planning. Students learn practical aspects of event organization, vendor management, marketing strategies, and execution of large-scale public events.",
+        12: "The final lecture covers advanced negotiation skills essential for business success. Students learn about negotiation strategies, BATNA concepts, and cross-cultural negotiation techniques while developing practical skills through real-world scenarios."
+    };
+    return descriptions[id] || "Detailed description coming soon...";
+}
 
         function openModal(lectureId) {
             currentLectureId = lectureId;
