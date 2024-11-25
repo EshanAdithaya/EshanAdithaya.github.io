@@ -8,25 +8,153 @@ body {
     color: #E2E8F0;
 }
 
-/* Gradient Text */
-.gradient-text {
-    background: linear-gradient(45deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+/* Navigation Highlight */
+.nav-link {
+    position: relative;
 }
 
-/* Card Hover Effects */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Mobile Menu Improvements */
+@media (max-width: 768px) {
+    #mobileMenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(31, 41, 55, 0.95);
+        backdrop-filter: blur(8px);
+        padding: 1rem;
+        border-top: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    #mobileMenu a {
+        padding: 0.75rem 1rem;
+        display: block;
+        border-radius: 0.5rem;
+    }
+
+    #mobileMenu a:hover {
+        background: rgba(59, 130, 246, 0.1);
+    }
+}
+
+/* Lecture Cards Grid */
+@media (max-width: 640px) {
+    #lectureGrid {
+        padding: 1rem;
+    }
+
+    .lecture-card {
+        margin-bottom: 1.5rem;
+    }
+
+    .card-image {
+        height: 200px;
+    }
+}
+
+/* Modal Improvements */
+@media (max-width: 768px) {
+    .modal-content {
+        height: 100vh;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .modal {
+        padding: 0;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .modal-content .p-6 {
+        padding: 1rem;
+    }
+
+    .modal-content .flex.space-x-4 {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .modal-content .flex.space-x-4 button {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+/* Section Content Spacing */
+@media (max-width: 640px) {
+    .section-content {
+        margin-bottom: 2rem;
+    }
+
+    .section-content .space-y-2 {
+        margin-left: 0;
+    }
+
+    .section-content i.fas {
+        font-size: 0.875rem;
+    }
+}
+
+/* Typography Adjustments */
+@media (max-width: 640px) {
+    h2.text-4xl {
+        font-size: 1.875rem;
+    }
+
+    h3.text-xl {
+        font-size: 1.25rem;
+    }
+
+    .text-sm {
+        font-size: 0.813rem;
+    }
+}
+
+/* Gradient Text */
+.gradient-text {
+    background: linear-gradient(45deg, #60A5FA, #8B5CF6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Card Styles */
 .lecture-card {
     transition: all 0.3s ease;
-    background: rgba(15, 23, 42, 0.5);
-    backdrop-filter: blur(12px);
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(10px);
 }
 
 .lecture-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(30, 64, 175, 0.2);
     border-color: var(--primary);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-image {
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    margin-bottom: 1rem;
 }
 
 /* Modal Styles */
@@ -73,65 +201,14 @@ body {
     background: linear-gradient(45deg, var(--secondary), var(--primary));
 }
 
-/* Close Button Animation */
-.close-btn {
-    transition: all 0.3s ease;
-}
-
-.close-btn:hover {
-    transform: rotate(90deg);
-    color: var(--primary);
-}
-
-/* Content Animations */
-.section-content {
-    transition: all 0.3s ease;
-}
-
-.section-content:hover {
-    transform: translateX(5px);
-}
-
-/* List Item Hover */
-.list-item {
-    transition: all 0.2s ease;
-    position: relative;
-    padding-left: 1rem;
-}
-
-.list-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 4px;
-    height: 4px;
-    background: var(--primary);
-    border-radius: 50%;
-    transform: translateY(-50%);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.list-item:hover::before {
-    opacity: 1;
-}
-
-/* Background Animation */
-@keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 0.1;
-    }
-
-    50% {
-        opacity: 0.2;
-    }
-}
-
+/* Animations and Effects */
 .bg-pulse {
-    animation: pulse 4s infinite;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.3; }
 }
 
 .hover-btn {
@@ -154,6 +231,24 @@ body {
     left: 100%;
 }
 
+/* Miscellaneous */
+.close-btn {
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    transform: rotate(90deg);
+    color: var(--primary);
+}
+
+.section-content {
+    transition: all 0.3s ease;
+}
+
+.section-content:hover {
+    transform: translateX(5px);
+}
+
 .interview-tip {
     background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
     border-left: 4px solid #3B82F6;
@@ -165,38 +260,4 @@ body {
 
 .checklist-item:hover {
     transform: translateX(5px);
-}
-
-
-.modal.active {
-    display: flex;
-}
-.bg-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-@keyframes pulse {
-    0%, 100% { opacity: 0.1; }
-    50% { opacity: 0.3; }
-}
-.gradient-text {
-    background: linear-gradient(45deg, #60A5FA, #8B5CF6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.lecture-card {
-    transition: all 0.3s ease;
-    background: rgba(17, 24, 39, 0.7);
-    backdrop-filter: blur(10px);
-}
-.lecture-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(30, 64, 175, 0.2);
-}
-.card-image {
-    height: 160px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 8px;
-    margin-bottom: 1rem;
 }
