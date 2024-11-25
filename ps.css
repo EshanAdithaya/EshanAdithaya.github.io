@@ -70,9 +70,10 @@ body {
 /* Modal Improvements */
 @media (max-width: 768px) {
     .modal-content {
-        height: 100vh;
-        margin: 0;
-        border-radius: 0;
+        max-height: auto;
+        overflow-y: auto;
+        /* margin: 0; */
+        /* border-radius: 0; */
     }
 
     .modal {
