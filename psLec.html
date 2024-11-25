@@ -1087,6 +1087,16 @@
                 }
             },
             {
+                "id": 11,
+                "number": "Lecture 11",
+                "title": "Food Festival",
+                "description": "Planning, organizing, and executing a successful food festival event",
+                "content": {
+                    "type": "pdf",
+                    "url": "fdfestival.pdf"
+                }
+            },
+            {
                 "id": 12,
                 "number": "Lecture 12",
                 "title": "Negotiation Skills",
@@ -1191,6 +1201,50 @@
                 }
             }
         ];
+
+
+        function renderModalContent(lecture) {
+            document.getElementById('modalTitle').textContent = lecture.title;
+
+            if (lecture.content.type === 'pdf') {
+                const content = `
+            <div class="h-[80vh] w-full animate__animated animate__fadeIn relative">
+                <div id="pdfLoadingIndicator" class="absolute inset-0 flex items-center justify-center bg-gray-900">
+                    <div class="text-blue-400">
+                        <i class="fas fa-spinner fa-spin fa-3x"></i>
+                        <p class="mt-2">Loading PDF...</p>
+                    </div>
+                </div>
+                <iframe 
+                    src="${lecture.content.url}"
+                    class="w-full h-full border-0 rounded-lg"
+                    type="application/pdf"
+                    onload="document.getElementById('pdfLoadingIndicator').style.display='none'"
+                    onerror="handlePDFError()">
+                    <p class="text-red-400 p-4">
+                        Unable to display PDF. <a href="${lecture.content.url}" class="text-blue-400">Download instead</a>
+                    </p>
+                </iframe>
+            </div>
+        `;
+                document.getElementById('modalContent').innerHTML = content;
+                return;
+            }
+
+            // Rest of your existing code...
+        }
+
+        function handlePDFError() {
+            document.getElementById('pdfLoadingIndicator').innerHTML = `
+        <div class="text-red-400 text-center">
+            <i class="fas fa-exclamation-triangle fa-3x"></i>
+            <p class="mt-2">Error loading PDF</p>
+            <a href="${lecture.content.url}" class="text-blue-400 mt-2 block">
+                Click here to download
+            </a>
+        </div>
+    `;
+        }
 
         let currentLectureId = null;
 
@@ -1320,19 +1374,19 @@
             document.body.style.overflow = 'auto';
         }
 
-        function nextLecture() {
-            const nextId = currentLectureId + 1;
-            if (lectures.find(l => l.id === nextId)) {
-                openModal(nextId);
-            }
-        }
+        // function nextLecture() {
+        //     const nextId = currentLectureId + 1;
+        //     if (lectures.find(l => l.id === nextId)) {
+        //         openModal(nextId);
+        //     }
+        // }
 
-        function previousLecture() {
-            const prevId = currentLectureId - 1;
-            if (lectures.find(l => l.id === prevId)) {
-                openModal(prevId);
-            }
-        }
+        // function previousLecture() {
+        //     const prevId = currentLectureId - 1;
+        //     if (lectures.find(l => l.id === prevId)) {
+        //         openModal(prevId);
+        //     }
+        // }
 
         function setupModalListeners() {
             document.addEventListener('keydown', e => {
@@ -1345,6 +1399,137 @@
             });
         }
     </script>
+
+
+<script>
+    // Add lecture icons/images mapping
+    const lectureImages = {
+        1: 'https://via.placeholder.com/400x200/1E3A8A/ffffff?text=Professional+Skills',
+        2: 'https://via.placeholder.com/400x200/1E40AF/ffffff?text=CV+Writing',
+        3: 'https://via.placeholder.com/400x200/1E3A8A/ffffff?text=Interview+Skills',
+        4: 'https://via.placeholder.com/400x200/1E40AF/ffffff?text=Portfolio',
+        5: 'https://via.placeholder.com/400x200/1E3A8A/ffffff?text=Meetings',
+        6: 'https://via.placeholder.com/400x200/1E40AF/ffffff?text=Email+Etiquette',
+        7: 'https://via.placeholder.com/400x200/1E3A8A/ffffff?text=Research',
+        8: 'https://via.placeholder.com/400x200/1E40AF/ffffff?text=Dining',
+        9: 'https://via.placeholder.com/400x200/1E3A8A/ffffff?text=Project+Proposal',
+        10: 'https://via.placeholder.com/400x200/1E40AF/ffffff?text=EI',
+        11: 'https://via.placeholder.com/400x200/1E3A8A/ffffff?text=Food+Festival',
+        12: 'https://via.placeholder.com/400x200/1E40AF/ffffff?text=Negotiation'
+    };
+
+    // Updated renderLectureCards function
+    function renderLectureCards() {
+        const grid = document.getElementById('lectureGrid');
+        grid.innerHTML = lectures.map(lecture => `
+            <div class="lecture-card border border-gray-700/50 hover:border-blue-500/50 rounded-xl overflow-hidden cursor-pointer animate__animated animate__fadeIn" 
+                 onclick="openModal(${lecture.id})">
+                <div class="card-image" style="background-image: url('${lectureImages[lecture.id]}')"></div>
+                <div class="p-6">
+                    <div class="flex items-center space-x-2 text-blue-400 text-sm mb-2">
+                        <i class="fas fa-book"></i>
+                        <span>${lecture.number}</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-3">${lecture.title}</h3>
+                    <p class="text-gray-300 mb-4">${lecture.description}</p>
+                    <div class="flex items-center text-blue-400 group">
+                        <span>View lecture</span>
+                        <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Fixed renderModalContent function
+    function renderModalContent(lecture) {
+        if (!lecture) return;
+        
+        document.getElementById('modalTitle').textContent = `${lecture.number}: ${lecture.title}`;
+
+        if (lecture.content.type === 'pdf') {
+            // PDF handling remains the same
+            return;
+        }
+
+        const content = `
+            <div class="space-y-8 animate__animated animate__fadeIn">
+                <!-- Overview Section -->
+                <div class="section-content">
+                    <div class="flex items-center space-x-3 text-blue-400 mb-4">
+                        <i class="fas fa-info-circle text-xl"></i>
+                        <h3 class="text-xl font-semibold">Overview</h3>
+                    </div>
+                    ${Array.isArray(lecture.content.overview) ? 
+                        `<div class="pl-4 space-y-2">
+                            ${lecture.content.overview.map(item =>
+                                `<p class="text-gray-400"><i class="fas fa-check text-blue-400 mr-2"></i>${item}</p>`
+                            ).join('')}
+                        </div>` :
+                        `<p class="text-gray-300">${lecture.description}</p>`
+                    }
+                </div>
+
+                ${lecture.content.objectives ? `
+                <!-- Learning Objectives -->
+                <div class="section-content">
+                    <div class="flex items-center space-x-3 text-blue-400 mb-4">
+                        <i class="fas fa-bullseye text-xl"></i>
+                        <h3 class="text-xl font-semibold">Learning Objectives</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        ${lecture.content.objectives.map(item => `
+                            <li class="list-item text-gray-300">
+                                <i class="fas fa-arrow-right text-blue-400 mr-2"></i>${item}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+
+                ${lecture.content.key_topics ? `
+                <!-- Key Topics -->
+                <div class="section-content">
+                    <div class="flex items-center space-x-3 text-blue-400 mb-4">
+                        <i class="fas fa-book text-xl"></i>
+                        <h3 class="text-xl font-semibold">Key Topics</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        ${lecture.content.key_topics.map(item => `
+                            <li class="list-item text-gray-300">
+                                <i class="fas fa-bookmark text-blue-400 mr-2"></i>${item}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+            </div>
+        `;
+
+        document.getElementById('modalContent').innerHTML = content;
+    }
+
+    // Fixed navigation functions
+    function nextLecture() {
+        const nextId = currentLectureId + 1;
+        const nextLecture = lectures.find(l => l.id === nextId);
+        if (nextLecture) {
+            currentLectureId = nextId;
+            renderModalContent(nextLecture);
+        }
+    }
+
+    function previousLecture() {
+        const prevId = currentLectureId - 1;
+        const prevLecture = lectures.find(l => l.id === prevId);
+        if (prevLecture) {
+            currentLectureId = prevId;
+            renderModalContent(prevLecture);
+        }
+    }
+
+    // Rest of your existing code...
+</script>
 </body>
 
 </html>

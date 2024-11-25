@@ -166,3 +166,37 @@ body {
 .checklist-item:hover {
     transform: translateX(5px);
 }
+
+
+.modal.active {
+    display: flex;
+}
+.bg-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+}
+.gradient-text {
+    background: linear-gradient(45deg, #60A5FA, #8B5CF6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.lecture-card {
+    transition: all 0.3s ease;
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(10px);
+}
+.lecture-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(30, 64, 175, 0.2);
+}
+.card-image {
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
