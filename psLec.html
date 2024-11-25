@@ -1203,37 +1203,6 @@
         ];
 
 
-        function renderModalContent(lecture) {
-            document.getElementById('modalTitle').textContent = lecture.title;
-
-            if (lecture.content.type === 'pdf') {
-                const content = `
-            <div class="h-[80vh] w-full animate__animated animate__fadeIn relative">
-                <div id="pdfLoadingIndicator" class="absolute inset-0 flex items-center justify-center bg-gray-900">
-                    <div class="text-blue-400">
-                        <i class="fas fa-spinner fa-spin fa-3x"></i>
-                        <p class="mt-2">Loading PDF...</p>
-                    </div>
-                </div>
-                <iframe 
-                    src="${lecture.content.url}"
-                    class="w-full h-full border-0 rounded-lg"
-                    type="application/pdf"
-                    onload="document.getElementById('pdfLoadingIndicator').style.display='none'"
-                    onerror="handlePDFError()">
-                    <p class="text-red-400 p-4">
-                        Unable to display PDF. <a href="${lecture.content.url}" class="text-blue-400">Download instead</a>
-                    </p>
-                </iframe>
-            </div>
-        `;
-                document.getElementById('modalContent').innerHTML = content;
-                return;
-            }
-
-            // Rest of your existing code...
-        }
-
         function handlePDFError() {
             document.getElementById('pdfLoadingIndicator').innerHTML = `
         <div class="text-red-400 text-center">
@@ -1254,27 +1223,6 @@
             setupModalListeners();
         });
 
-        // Render lecture cards
-        function renderLectureCards() {
-            const grid = document.getElementById('lectureGrid');
-            grid.innerHTML = lectures.map(lecture => `
-                <div class="lecture-card border border-gray-700/50 hover:border-blue-500/50 rounded-xl overflow-hidden cursor-pointer animate__animated animate__fadeIn" 
-                     onclick="openModal(${lecture.id})">
-                    <div class="p-6">
-                        <div class="flex items-center space-x-2 text-blue-400 text-sm mb-2">
-                            <i class="fas fa-book"></i>
-                            <span>${lecture.number}</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-blue-400 mb-3">${lecture.title}</h3>
-                        <p class="text-gray-300 mb-4">${lecture.description}</p>
-                        <div class="flex items-center text-blue-400 group">
-                            <span>View lecture</span>
-                            <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
 
         // Modal functions
         function renderModalContent(lecture) {
@@ -1398,10 +1346,6 @@
                 if (e.target === this) closeModal();
             });
         }
-    </script>
-
-
-<script>
     // Add lecture icons/images mapping
     const lectureImages = {
         1: 'https://www.naukri.com/cloudgateway-fastforward/ff-content-services/v0/unauth/cms/photo?id=8bd9b3512802afcf242d9060cf00c18824d2d992680979627673ececcebf7fcc8ea78075042b1dc841810d381bd0b70b1923bccb48f97686716bbacdf68c13eab39256bcdd88f9b25c4f31944917d4da&postTypeId=c4eff10da33c562d3e88af8f60fcf6cecdf3e35370f49177&source=ff',
