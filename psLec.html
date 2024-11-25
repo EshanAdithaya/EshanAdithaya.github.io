@@ -1203,49 +1203,6 @@
         ];
 
 
-        function handlePDFError() {
-            document.getElementById('pdfLoadingIndicator').innerHTML = `
-        <div class="text-red-400 text-center">
-            <i class="fas fa-exclamation-triangle fa-3x"></i>
-            <p class="mt-2">Error loading PDF</p>
-            <a href="${lecture.content.url}" class="text-blue-400 mt-2 block">
-                Click here to download
-            </a>
-        </div>
-    `;
-        }
-
-        let currentLectureId = null;
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function () {
-            renderLectureCards();
-            setupModalListeners();
-        });
-
-        function openModal(lectureId) {
-            currentLectureId = lectureId;
-            const lecture = lectures.find(l => l.id === lectureId);
-            renderModalContent(lecture);
-            document.getElementById('lectureModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            document.getElementById('lectureModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function setupModalListeners() {
-            document.addEventListener('keydown', e => {
-                if (e.key === 'Escape') closeModal();
-            });
-
-            // Click outside to close
-            document.getElementById('lectureModal').addEventListener('click', function (e) {
-                if (e.target === this) closeModal();
-            });
-        }
     // Add lecture icons/images mapping
     const lectureImages = {
         1: 'https://www.naukri.com/cloudgateway-fastforward/ff-content-services/v0/unauth/cms/photo?id=8bd9b3512802afcf242d9060cf00c18824d2d992680979627673ececcebf7fcc8ea78075042b1dc841810d381bd0b70b1923bccb48f97686716bbacdf68c13eab39256bcdd88f9b25c4f31944917d4da&postTypeId=c4eff10da33c562d3e88af8f60fcf6cecdf3e35370f49177&source=ff',
@@ -1262,117 +1219,248 @@
         12: 'https://www.marketing91.com/wp-content/uploads/2018/11/Negotiation-skills-3.jpg'
     };
 
-    // Updated renderLectureCards function
-    function renderLectureCards() {
-        const grid = document.getElementById('lectureGrid');
-        grid.innerHTML = lectures.map(lecture => `
-            <div class="lecture-card border border-gray-700/50 hover:border-blue-500/50 rounded-xl overflow-hidden cursor-pointer animate__animated animate__fadeIn" 
-                 onclick="openModal(${lecture.id})">
-                <div class="card-image" style="background-image: url('${lectureImages[lecture.id]}')"></div>
-                <div class="p-6">
-                    <div class="flex items-center space-x-2 text-blue-400 text-sm mb-2">
-                        <i class="fas fa-book"></i>
-                        <span>${lecture.number}</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-blue-400 mb-3">${lecture.title}</h3>
-                    <p class="text-gray-300 mb-4">${lecture.description}</p>
-                    <div class="flex items-center text-blue-400 group">
-                        <span>View lecture</span>
-                        <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                    </div>
+    let currentLectureId = null;
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function () {
+    renderLectureCards();
+    setupModalListeners();
+});
+
+// Render lecture cards
+function renderLectureCards() {
+    const grid = document.getElementById('lectureGrid');
+    grid.innerHTML = lectures.map(lecture => `
+        <div class="lecture-card border border-gray-700/50 hover:border-blue-500/50 rounded-xl overflow-hidden cursor-pointer animate__animated animate__fadeIn" 
+             onclick="openModal(${lecture.id})">
+            <div class="card-image" style="background-image: url('${lectureImages[lecture.id]}')"></div>
+            <div class="p-6">
+                <div class="flex items-center space-x-2 text-blue-400 text-sm mb-2">
+                    <i class="fas fa-book"></i>
+                    <span>${lecture.number}</span>
+                </div>
+                <h3 class="text-xl font-bold text-blue-400 mb-3">${lecture.title}</h3>
+                <p class="text-gray-300 mb-4">${lecture.description}</p>
+                <div class="flex items-center text-blue-400 group">
+                    <span>View lecture</span>
+                    <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
                 </div>
             </div>
-        `).join('');
+        </div>
+    `).join('');
+}
+
+function renderModalContent(lecture) {
+    if (!lecture) return;
+    
+    document.getElementById('modalTitle').textContent = `${lecture.number}: ${lecture.title}`;
+
+
+    if (lecture.content.type === 'pdf') {
+    const content = `
+        <div class="h-[80vh] w-full animate__animated animate__fadeIn relative">
+            <div id="pdfLoadingIndicator" class="absolute inset-0 flex items-center justify-center bg-gray-900">
+                <div class="text-blue-400">
+                    <i class="fas fa-spinner fa-spin fa-3x"></i>
+                    <p class="mt-2">Loading PDF...</p>
+                </div>
+            </div>
+            <iframe 
+                src="${lecture.content.url}"
+                class="w-full h-full border-0 rounded-lg"
+                type="application/pdf"
+                onload="document.getElementById('pdfLoadingIndicator').style.display='none'"
+                onerror="handlePDFError()">
+                <p class="text-red-400 p-4">
+                    Unable to display PDF. <a href="${lecture.content.url}" class="text-blue-400">Download instead</a>
+                </p>
+            </iframe>
+        </div>
+    `;
+    document.getElementById('modalContent').innerHTML = content;
+    return;
+}
+
+    let content = '<div class="space-y-8 animate__animated animate__fadeIn">';
+
+    // Overview Section
+    content += `
+        <div class="section-content">
+            <div class="flex items-center space-x-3 text-blue-400 mb-4">
+                <i class="fas fa-info-circle text-xl"></i>
+                <h3 class="text-xl font-semibold">Overview</h3>
+            </div>`;
+
+    // Handle different overview structures
+    if (Array.isArray(lecture.content.overview)) {
+        content += `
+            <div class="pl-4 space-y-2">
+                ${lecture.content.overview.map(item =>
+                    `<p class="text-gray-400"><i class="fas fa-check text-blue-400 mr-2"></i>${item}</p>`
+                ).join('')}
+            </div>`;
+    } else if (typeof lecture.content.overview === 'object' && lecture.content.overview.importance) {
+        content += `
+            <p class="text-gray-300 mb-3">${lecture.content.overview.definition}</p>
+            <div class="pl-4 space-y-2">
+                <h4 class="text-blue-400 mb-2">Key Importance:</h4>
+                ${lecture.content.overview.importance.map(item =>
+                    `<p class="text-gray-400"><i class="fas fa-check text-blue-400 mr-2"></i>${item}</p>`
+                ).join('')}
+            </div>`;
+    } else {
+        content += `<p class="text-gray-300">${lecture.description}</p>`;
+    }
+    content += '</div>';
+
+    // Components/Content Section for Lecture 9 (Project Proposal)
+    if (lecture.id === 9) {
+        content += `
+            <div class="section-content">
+                <div class="flex items-center space-x-3 text-blue-400 mb-4">
+                    <i class="fas fa-puzzle-piece text-xl"></i>
+                    <h3 class="text-xl font-semibold">Proposal Types</h3>
+                </div>
+                <div class="space-y-6">
+                    ${Object.entries(lecture.proposalTypes).map(([type, details]) => `
+                        <div class="bg-gray-800/50 p-4 rounded-lg">
+                            <h4 class="text-blue-400 mb-2 text-lg capitalize">${type} Proposals</h4>
+                            <p class="text-gray-300 mb-3">${details.description}</p>
+                            <div class="pl-4">
+                                ${Object.entries(details.components).map(([component, data]) => `
+                                    <div class="mb-3">
+                                        <h5 class="text-blue-300 mb-2">${component.replace(/([A-Z])/g, ' $1').trim()}</h5>
+                                        <ul class="list-disc list-inside text-gray-400">
+                                            ${Array.isArray(data.elements) ? 
+                                                data.elements.map(item => `<li>${item}</li>`).join('') :
+                                                ''}
+                                        </ul>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>`;
     }
 
-    // Fixed renderModalContent function
-    function renderModalContent(lecture) {
-        if (!lecture) return;
-        
-        document.getElementById('modalTitle').textContent = `${lecture.number}: ${lecture.title}`;
+    // Components Section for Lecture 10 (Emotional Intelligence)
+    if (lecture.id === 10) {
+        content += `
+            <div class="section-content">
+                <div class="flex items-center space-x-3 text-blue-400 mb-4">
+                    <i class="fas fa-brain text-xl"></i>
+                    <h3 class="text-xl font-semibold">Key Components</h3>
+                </div>
+                <div class="space-y-6">
+                    ${Object.entries(lecture.components).map(([component, details]) => `
+                        <div class="bg-gray-800/50 p-4 rounded-lg">
+                            <h4 class="text-blue-400 mb-2 text-lg capitalize">${component.replace(/_/g, ' ')}</h4>
+                            <p class="text-gray-300 mb-3">${details.definition}</p>
+                            <div class="pl-4">
+                                <h5 class="text-blue-300 mb-2">Key Elements:</h5>
+                                <ul class="list-disc list-inside text-gray-400">
+                                    ${details.elements.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                                <h5 class="text-blue-300 mt-3 mb-2">Skills:</h5>
+                                <ul class="list-disc list-inside text-gray-400">
+                                    ${details.skills.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>`;
+    }
 
-        if (lecture.content.type === 'pdf') {
-            // PDF handling remains the same
-            return;
-        }
-
-        const content = `
-            <div class="space-y-8 animate__animated animate__fadeIn">
-                <!-- Overview Section -->
-                <div class="section-content">
-                    <div class="flex items-center space-x-3 text-blue-400 mb-4">
-                        <i class="fas fa-info-circle text-xl"></i>
-                        <h3 class="text-xl font-semibold">Overview</h3>
-                    </div>
-                    ${Array.isArray(lecture.content.overview) ? 
-                        `<div class="pl-4 space-y-2">
-                            ${lecture.content.overview.map(item =>
-                                `<p class="text-gray-400"><i class="fas fa-check text-blue-400 mr-2"></i>${item}</p>`
+    // Best Practices Section
+    if (lecture.content.best_practices) {
+        content += `
+            <div class="section-content">
+                <div class="flex items-center space-x-3 text-blue-400 mb-4">
+                    <i class="fas fa-star text-xl"></i>
+                    <h3 class="text-xl font-semibold">Best Practices</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    ${Array.isArray(lecture.content.best_practices) ? 
+                        `<ul class="space-y-2">
+                            ${lecture.content.best_practices.map(item =>
+                                `<li class="text-gray-300"><i class="fas fa-check text-blue-400 mr-2"></i>${item}</li>`
                             ).join('')}
-                        </div>` :
-                        `<p class="text-gray-300">${lecture.description}</p>`
-                    }
-                </div>
-
-                ${lecture.content.objectives ? `
-                <!-- Learning Objectives -->
-                <div class="section-content">
-                    <div class="flex items-center space-x-3 text-blue-400 mb-4">
-                        <i class="fas fa-bullseye text-xl"></i>
-                        <h3 class="text-xl font-semibold">Learning Objectives</h3>
-                    </div>
-                    <ul class="space-y-3">
-                        ${lecture.content.objectives.map(item => `
-                            <li class="list-item text-gray-300">
-                                <i class="fas fa-arrow-right text-blue-400 mr-2"></i>${item}
-                            </li>
+                        </ul>` :
+                        Object.entries(lecture.content.best_practices).map(([category, items]) => `
+                            <div class="bg-gray-800/50 p-4 rounded-lg">
+                                <h4 class="text-blue-400 mb-2 capitalize">${category}</h4>
+                                <ul class="space-y-2">
+                                    ${Array.isArray(items) ? items.map(item =>
+                                        `<li class="text-gray-300"><i class="fas fa-check text-blue-400 mr-2"></i>${item}</li>`
+                                    ).join('') : ''}
+                                </ul>
+                            </div>
                         `).join('')}
-                    </ul>
                 </div>
-                ` : ''}
-
-                ${lecture.content.key_topics ? `
-                <!-- Key Topics -->
-                <div class="section-content">
-                    <div class="flex items-center space-x-3 text-blue-400 mb-4">
-                        <i class="fas fa-book text-xl"></i>
-                        <h3 class="text-xl font-semibold">Key Topics</h3>
-                    </div>
-                    <ul class="space-y-3">
-                        ${lecture.content.key_topics.map(item => `
-                            <li class="list-item text-gray-300">
-                                <i class="fas fa-bookmark text-blue-400 mr-2"></i>${item}
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-                ` : ''}
-            </div>
-        `;
-
-        document.getElementById('modalContent').innerHTML = content;
+            </div>`;
     }
 
-    // Fixed navigation functions
-    function nextLecture() {
-        const nextId = currentLectureId + 1;
-        const nextLecture = lectures.find(l => l.id === nextId);
-        if (nextLecture) {
-            currentLectureId = nextId;
-            renderModalContent(nextLecture);
-        }
-    }
+    content += '</div>';
+    document.getElementById('modalContent').innerHTML = content;
+}
 
-    function previousLecture() {
-        const prevId = currentLectureId - 1;
-        const prevLecture = lectures.find(l => l.id === prevId);
-        if (prevLecture) {
-            currentLectureId = prevId;
-            renderModalContent(prevLecture);
-        }
-    }
+function openModal(lectureId) {
+    currentLectureId = lectureId;
+    const lecture = lectures.find(l => l.id === lectureId);
+    renderModalContent(lecture);
+    document.getElementById('lectureModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
 
-    // Rest of your existing code...
+function closeModal() {
+    document.getElementById('lectureModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function nextLecture() {
+    const nextId = currentLectureId + 1;
+    const nextLecture = lectures.find(l => l.id === nextId);
+    if (nextLecture) {
+        currentLectureId = nextId;
+        renderModalContent(nextLecture);
+    }
+}
+
+function previousLecture() {
+    const prevId = currentLectureId - 1;
+    const prevLecture = lectures.find(l => l.id === prevId);
+    if (prevLecture) {
+        currentLectureId = prevId;
+        renderModalContent(prevLecture);
+    }
+}
+
+function handlePDFError() {
+    document.getElementById('pdfLoadingIndicator').innerHTML = `
+        <div class="text-red-400 text-center">
+            <i class="fas fa-exclamation-triangle fa-3x"></i>
+            <p class="mt-2">Error loading PDF</p>
+        </div>
+    `;
+}
+
+function setupModalListeners() {
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    // Click outside to close
+    document.getElementById('lectureModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+}
+
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenu.classList.toggle('hidden');
+}
 </script>
 </body>
 
