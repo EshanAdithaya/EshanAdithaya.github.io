@@ -42,7 +42,7 @@
             <div class="text-center mb-16 space-y-4 animate__animated animate__fadeIn">
                 <h2 class="text-4xl font-bold gradient-text">PS Lectures</h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
-                    Explore our comprehensive collection of professional skills lectures
+                    Explore comprehensive collection of professional skills lectures
                 </p>
             </div>
 
@@ -1223,92 +1223,6 @@
             setupModalListeners();
         });
 
-
-        // Modal functions
-        function renderModalContent(lecture) {
-            document.getElementById('modalTitle').textContent = lecture.title;
-
-            const content = `
-                <div class="space-y-8 animate__animated animate__fadeIn">
-                    <!-- Overview Section -->
-                    <div class="section-content">
-                        <div class="flex items-center space-x-3 text-blue-400 mb-4">
-                            <i class="fas fa-info-circle text-xl"></i>
-                            <h3 class="text-xl font-semibold">Overview</h3>
-                        </div>
-                        <p class="text-gray-300 mb-4">${lecture.description}</p>
-                        <div class="pl-4 space-y-2">
-                            ${lecture.content.overview.map(item =>
-                `<p class="text-gray-400"><i class="fas fa-check text-blue-400 mr-2"></i>${item}</p>`
-            ).join('')}
-                        </div>
-                    </div>
-
-                    <!-- Learning Objectives -->
-                    <div class="section-content">
-                        <div class="flex items-center space-x-3 text-blue-400 mb-4">
-                            <i class="fas fa-bullseye text-xl"></i>
-                            <h3 class="text-xl font-semibold">Learning Objectives</h3>
-                        </div>
-                        <ul class="space-y-3">
-                            ${lecture.content.objectives.map(item => `
-                                <li class="list-item text-gray-300">
-                                    <i class="fas fa-arrow-right text-blue-400 mr-2"></i>${item}
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-
-                    <!-- Key Topics -->
-                    <div class="section-content">
-                        <div class="flex items-center space-x-3 text-blue-400 mb-4">
-                            <i class="fas fa-book text-xl"></i>
-                            <h3 class="text-xl font-semibold">Key Topics</h3>
-                        </div>
-                        <ul class="space-y-3">
-                            ${lecture.content.key_topics.map(item => `
-                                <li class="list-item text-gray-300">
-                                    <i class="fas fa-bookmark text-blue-400 mr-2"></i>${item}
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-
-                    <!-- Practical Elements -->
-                    <div class="section-content">
-                        <div class="flex items-center space-x-3 text-blue-400 mb-4">
-                            <i class="fas fa-laptop-code text-xl"></i>
-                            <h3 class="text-xl font-semibold">Practical Elements</h3>
-                        </div>
-                        <ul class="space-y-3">
-                            ${lecture.content.practical_elements.map(item => `
-                                <li class="list-item text-gray-300">
-                                    <i class="fas fa-tasks text-blue-400 mr-2"></i>${item}
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-
-                    <!-- Assessment Structure -->
-                    <div class="section-content">
-                        <div class="flex items-center space-x-3 text-blue-400 mb-4">
-                            <i class="fas fa-chart-line text-xl"></i>
-                            <h3 class="text-xl font-semibold">Assessment Structure</h3>
-                        </div>
-                        <ul class="space-y-3">
-                            ${lecture.content.assessment.map(item => `
-                                <li class="list-item text-gray-300">
-                                    <i class="fas fa-check-circle text-blue-400 mr-2"></i>${item}
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('modalContent').innerHTML = content;
-        }
-
         function openModal(lectureId) {
             currentLectureId = lectureId;
             const lecture = lectures.find(l => l.id === lectureId);
@@ -1321,20 +1235,6 @@
             document.getElementById('lectureModal').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
-
-        // function nextLecture() {
-        //     const nextId = currentLectureId + 1;
-        //     if (lectures.find(l => l.id === nextId)) {
-        //         openModal(nextId);
-        //     }
-        // }
-
-        // function previousLecture() {
-        //     const prevId = currentLectureId - 1;
-        //     if (lectures.find(l => l.id === prevId)) {
-        //         openModal(prevId);
-        //     }
-        // }
 
         function setupModalListeners() {
             document.addEventListener('keydown', e => {
