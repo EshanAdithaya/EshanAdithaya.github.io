@@ -106,7 +106,7 @@
                     </a>
                 </div>
             </div>
-            
+            <section id="timeline" class="py-20 bg-gray-900"></section>
             <div class="md:w-1/2 mt-12 md:mt-0 animate__animated animate__fadeInRight animate__delay-1s relative">
                 <div class="relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-2xl opacity-20 animate-pulse"></div>
@@ -488,39 +488,40 @@
 
 <script>
     // Function to create timeline items
-    function renderTimeline() {
-        const timelineContainer = document.getElementById('timelineContainer');
-        timelineContainer.innerHTML = ''; // Clear existing content
+    // here 
+    // function renderTimeline() {
+    //     const timelineContainer = document.getElementById('timelineContainer');
+    //     timelineContainer.innerHTML = ''; // Clear existing content
 
-        projects.forEach((project, index) => {
-            const isEven = index % 2 === 0;
-            const timelineItem = document.createElement('div');
-            timelineItem.className = 'timeline-item';
-            timelineItem.onclick = () => showProject(project.id);
+    //     projects.forEach((project, index) => {
+    //         const isEven = index % 2 === 0;
+    //         const timelineItem = document.createElement('div');
+    //         timelineItem.className = 'timeline-item';
+    //         timelineItem.onclick = () => showProject(project.id);
 
-            timelineItem.innerHTML = `
-                <div class="grid md:grid-cols-2 gap-8 items-center cursor-pointer">
-                    <div class="${isEven ? 'md:text-right md:pr-12' : 'md:text-right md:pr-12 md:col-start-2'}">
-                        <h3 class="text-xl font-bold text-blue-400">${project.title}</h3>
-                        <p class="text-gray-400 mb-2">${project.date}</p>
-                        <p class="text-gray-300">${project.description}</p>
-                        <div class="flex flex-wrap gap-2 mt-4 md:justify-end">
-                            ${project.technologies
-                                .map(tech => `
-                                    <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">
-                                        ${tech}
-                                    </span>
-                                `)
-                                .join('')}
-                        </div>
-                    </div>
-                    <div class="${isEven ? 'md:pl-12' : ''}"></div>
-                </div>
-            `;
+    //         timelineItem.innerHTML = `
+    //             <div class="grid md:grid-cols-2 gap-8 items-center cursor-pointer">
+    //                 <div class="${isEven ? 'md:text-right md:pr-12' : 'md:text-right md:pr-12 md:col-start-2'}">
+    //                     <h3 class="text-xl font-bold text-blue-400">${project.title}</h3>
+    //                     <p class="text-gray-400 mb-2">${project.date}</p>
+    //                     <p class="text-gray-300">${project.description}</p>
+    //                     <div class="flex flex-wrap gap-2 mt-4 md:justify-end">
+    //                         ${project.technologies
+    //                             .map(tech => `
+    //                                 <span class="px-3 py-1 bg-blue-900 text-blue-300 rounded-full text-sm">
+    //                                     ${tech}
+    //                                 </span>
+    //                             `)
+    //                             .join('')}
+    //                     </div>
+    //                 </div>
+    //                 <div class="${isEven ? 'md:pl-12' : ''}"></div>
+    //             </div>
+    //         `;
 
-            timelineContainer.appendChild(timelineItem);
-        });
-    }
+    //         timelineContainer.appendChild(timelineItem);
+    //     });
+    // }
 
     // Call the function when the page loads
     document.addEventListener('DOMContentLoaded', renderTimeline);
@@ -593,6 +594,7 @@
         type: "Full Stack Development",
         description: "Enterprise SaaS platform for business management",
         technologies: ["React", "Tailwind", "Nest.js", "SQL", "Swagger"],
+        image: "images/projects/SoluzentSaas.png",
         details: {
             challenge: "Building a scalable SaaS platform with complex user management",
             solution: "Implemented microservices architecture with Nest.js backend",
@@ -612,6 +614,7 @@
         type: "Frontend Development",
         description: "Fitness club management application",
         technologies: ["React", "Tailwind", "Nest.js", "SQL", "Swagger"],
+        image: "images/projects/fitClub.png",
         details: {
             challenge: "Creating an intuitive fitness management interface",
             solution: "Developed responsive UI with React and Tailwind",
@@ -631,6 +634,7 @@
         type: "Mobile Development",
         description: "Android messaging app with Firebase integration",
         technologies: ["Java", "Firebase", "XML", "Android Studio", "Gradle"],
+        image: "images/projects/Wechat.png",
         details: {
             challenge: "Building a real-time messaging system with secure authentication",
             solution: "Implemented Google account integration with Firebase backend",
@@ -651,6 +655,7 @@
         type: "Mobile Development",
         description: "Android recipe sharing platform",
         technologies: ["Java", "Firebase", "XML", "Android Studio", "Gradle"],
+        image: "images/projects/recipeapp.png",
         details: {
             challenge: "Creating a social platform for recipe sharing",
             solution: "Developed user-friendly interface with Firebase backend",
@@ -671,6 +676,7 @@
         type: "Desktop Application",
         description: "Comprehensive car service management system",
         technologies: ["Java", "Maven", "MySQL", "NetBeans"],
+        image: "images/projects/carcare.png",
         details: {
             challenge: "Creating an integrated system for car service management",
             solution: "Developed a Java desktop application with POS integration",
@@ -691,6 +697,7 @@
         type: "Web Development",
         description: "IVR system interface for TV channel",
         technologies: ["HTML", "CSS", "JavaScript", "PHP", "SQL"],
+        image: "images/projects/WhatsApp Image 2024-11-26 at 10.28.06_1a1f8e19.jpg",
         details: {
             challenge: "Building a user-friendly interface for IVR management",
             solution: "Created a web portal for IVR recording management",
@@ -710,6 +717,7 @@
         type: "Web Development",
         description: "Company website with admin dashboard",
         technologies: ["HTML", "Bootstrap", "JavaScript", "PHP", "SQL"],
+        image: "images/projects/Cryste.png",
         details: {
             challenge: "Creating a professional company website with management capabilities",
             solution: "Built dynamic website with admin portal",
@@ -730,6 +738,7 @@
         type: "Web Development",
         description: "Complete Learning Management System",
         technologies: ["HTML", "Bootstrap", "JavaScript", "PHP", "SQL"],
+        image: "images/projects/lms.png",
         details: {
             challenge: "Developing a comprehensive learning management system",
             solution: "Built integrated LMS/MCS with admin capabilities",
@@ -750,6 +759,7 @@
         type: "Web Development",
         description: "Student visa agency website",
         technologies: ["HTML", "Bootstrap", "JavaScript", "PHP", "SQL"],
+        image: "images/projects/WhatsApp Image 2024-11-26 at 10.33.53_9a4fa727.jpg",
         details: {
             challenge: "Creating a dynamic website for visa agency",
             solution: "Developed content management system with admin portal",
@@ -770,6 +780,7 @@
         type: "Web Development",
         description: "E-commerce product showcase",
         technologies: ["HTML", "Bootstrap", "JavaScript", "PHP", "SQL"],
+        image: "images/projects/WhatsApp Image 2024-11-26 at 10.35.50_a2bc97e7.jpg",
         details: {
             challenge: "Building an effective product showcase platform",
             solution: "Created user-friendly product catalog website",
@@ -789,6 +800,7 @@
         type: "Web Development",
         description: "Product showcase and customer engagement platform",
         technologies: ["HTML", "Bootstrap", "JavaScript", "PHP", "SQL"],
+        image: "images/projects/image.png",
         details: {
             challenge: "Creating an engaging product showcase website",
             solution: "Developed interactive product platform",
@@ -905,6 +917,142 @@
 
         document.querySelectorAll('.timeline-item').forEach(item => {
             observer.observe(item);
+        });
+    </script>
+    <script>
+        // Updated projects array with image URLs
+        // const projects = [
+        //     {
+        //         id: 1,
+        //         title: "Soluzent Web App",
+        //         date: "2024",
+        //         type: "Full Stack Development",
+        //         description: "Enterprise SaaS platform for business management",
+        //         technologies: ["React", "Tailwind", "Nest.js", "SQL", "Swagger"],
+        //         image: "/api/placeholder/600/400", // Using placeholder for demo
+        //         details: {
+        //             challenge: "Building a scalable SaaS platform with complex user management",
+        //             solution: "Implemented microservices architecture with Nest.js backend",
+        //             features: [
+        //                 "User authentication and authorization",
+        //                 "Real-time data synchronization",
+        //                 "RESTful API with Swagger documentation",
+        //                 "Responsive dashboard with Tailwind CSS"
+        //             ],
+        //             impact: "Enterprise-level SaaS solution with modern architecture"
+        //         }
+        //     },
+        //     // ... Add image property to other projects similarly
+        // ];
+    
+        // Updated function to render timeline with images
+        function renderTimeline() {
+            const timelineContainer = document.getElementById('timelineContainer');
+            timelineContainer.innerHTML = '';
+    
+            projects.forEach((project, index) => {
+                const isEven = index % 2 === 0;
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                timelineItem.onclick = () => showProject(project.id);
+    
+                timelineItem.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-8 items-center cursor-pointer group">
+                        <div class="${isEven ? 'md:text-right md:pr-12' : 'md:order-2 md:text-left md:pl-12'}">
+                            <div class="bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50 
+                                      transition-all duration-300 hover:border-blue-500/50 group-hover:transform 
+                                      group-hover:-translate-y-2">
+                                <h3 class="text-xl font-bold text-blue-400 mb-2">${project.title}</h3>
+                                <p class="text-gray-400 mb-2">${project.date}</p>
+                                <p class="text-gray-300">${project.description}</p>
+                                <div class="flex flex-wrap gap-2 mt-4 ${isEven ? 'md:justify-end' : ''}">
+                                    ${project.technologies
+                                        .map(tech => `
+                                            <span class="px-3 py-1 bg-blue-900/50 text-blue-300 rounded-full text-sm">
+                                                ${tech}
+                                            </span>
+                                        `)
+                                        .join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="${isEven ? 'md:pl-12' : 'md:pr-12 md:order-1'}">
+                            <div class="relative group overflow-hidden rounded-xl border-2 border-gray-700/50 
+                                      transition-all duration-300 hover:border-blue-500/50">
+                                <img src="${project.image}" 
+                                     alt="${project.title}" 
+                                     class="w-full h-64 object-cover transition-transform duration-300 
+                                           group-hover:scale-110"
+                                >
+                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent 
+                                          opacity-60"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+    
+                timelineContainer.appendChild(timelineItem);
+            });
+        }
+    
+        // Add these styles to your existing CSS
+        const newStyles = `
+            .timeline-item {
+                position: relative;
+                margin-bottom: 4rem;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.6s ease;
+            }
+    
+            .timeline-item.appear {
+                opacity: 1;
+                transform: translateY(0);
+            }
+    
+            .timeline-line {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 2px;
+                height: 100%;
+                background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            }
+    
+            @media (max-width: 768px) {
+                .timeline-line {
+                    left: 20px;
+                }
+                
+                .timeline-item::before {
+                    left: 20px;
+                }
+            }
+        `;
+    
+        // Add styles to document
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = newStyles;
+        document.head.appendChild(styleSheet);
+    
+        // Initialize timeline when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTimeline();
+            
+            // Reinitialize the intersection observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('appear');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+    
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                observer.observe(item);
+            });
         });
     </script>
 </body>
