@@ -172,6 +172,18 @@
                         "Compose and structure appropriate cover letters",
                         "Understand the purpose and impact of cover letters"
                     ],
+                    pdfs: [
+                {
+                    title: "CV",
+                    filename: "cv.pdf",
+                    icon: "file-pdf"
+                },
+                {
+                    title: "Cover Letter",
+                    filename: "Eshan Gunathilaka-cover letter, mindxo.pdf",
+                    icon: "file-pdf"
+                }
+            ],
                     key_topics: [
                         "CV Components and Structure",
                         "Personal Information and Professional Summary",
@@ -1111,6 +1123,27 @@
 
 
             let content = '<div class="space-y-8 animate__animated animate__fadeIn">';
+
+                 // Add PDF download buttons for Lecture 2
+    if (lecture.id === 2 && lecture.content.pdfs) {
+        content += `
+            <div class="section-content">
+                <div class="flex items-center space-x-3 text-blue-400 mb-4">
+                    <i class="fas fa-download text-xl"></i>
+                    <h3 class="text-xl font-semibold">Download Resources</h3>
+                </div>
+                <div class="pl-4 flex flex-wrap gap-4">
+                    ${lecture.content.pdfs.map(pdf => `
+                        <a href="${pdf.filename}" 
+                           download 
+                           class="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                            <i class="fas fa-${pdf.icon}"></i>
+                            <span>${pdf.title}</span>
+                        </a>
+                    `).join('')}
+                </div>
+            </div>`;
+    }
 
             // Add detailed description (new section)
             content += `
