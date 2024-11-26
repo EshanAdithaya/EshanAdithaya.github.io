@@ -937,6 +937,48 @@
                 "content": {
                     "type": "pdf",
                     "url": "fdfestival.pdf"
+                    ,"images": [  // Add new images section
+                {
+                    "url": "images/1.jpg",
+                    "caption": "Opening Ceremony"
+                },
+                {
+                    "url": "images/2.jpg",
+                    "caption": "Food Stalls Setup"
+                },
+                {
+                    "url": "images/3.jpg",
+                    "caption": "Food Stalls Setup"
+                },
+                {
+                    "url": "images/4.jpg",
+                    "caption": "Food Stalls Setup"
+                },
+                {
+                    "url": "images/5.jpg",
+                    "caption": "Food Stalls Setup"
+                },
+                {
+                    "url": "images/6.jpg",
+                    "caption": "Food Stalls Setup"
+                },
+                {
+                    "url": "images/7.jpg",
+                    "caption": "Food Stalls Setup"
+                },
+                {
+                    "url": "images/8.jpg",
+                    "caption": "Food Stalls Setup"
+                },
+                {
+                    "url": "images/9.jpg",
+                    "caption": "Food Stalls Setup"
+                },
+                {
+                    "url": "images/10.jpg",
+                    "caption": "Food Stalls Setup"
+                }
+            ]
                 }
             },
             {
@@ -1099,8 +1141,8 @@
     document.getElementById('modalTitle').textContent = `${lecture.number}: ${lecture.title}`;
 
     if (lecture.content && lecture.content.type === 'pdf') {
-        const content = `
-            <div class="w-full" style="height: calc(90vh - 120px);">
+        let content = `
+            <div class="w-full" style="height: calc(60vh - 120px);">
                 <div id="pdfLoadingIndicator" class="absolute inset-0 flex items-center justify-center bg-gray-900">
                     <div class="text-blue-400">
                         <i class="fas fa-spinner fa-spin fa-3x"></i>
@@ -1114,8 +1156,33 @@
                     onload="document.getElementById('pdfLoadingIndicator').style.display='none'"
                     onerror="handlePDFError()">
                 </iframe>
-            </div>
-        `;
+            </div>`;
+
+        // Add image gallery section if images exist
+        if (lecture.content.images) {
+            content += `
+                <div class="mt-8">
+                    <div class="flex items-center space-x-3 text-blue-400 mb-4">
+                        <i class="fas fa-images text-xl"></i>
+                        <h3 class="text-xl font-semibold">Event Gallery</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        ${lecture.content.images.map(image => `
+                            <div class="relative group rounded-lg overflow-hidden">
+                                <img 
+                                    src="${image.url}" 
+                                    alt="${image.caption}" 
+                                    class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                                >
+                                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-2 text-sm">
+                                    ${image.caption}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>`;
+        }
+
         document.getElementById('modalContent').innerHTML = content;
         document.getElementById('modalContent').style.padding = '0';
         return;
